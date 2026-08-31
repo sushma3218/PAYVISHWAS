@@ -16,6 +16,7 @@ class TransactionState(str, Enum):
     BLOCKED = "BLOCKED"
     ESCALATED = "ESCALATED"
     UNKNOWN = "UNKNOWN"
+    CLOSED = "CLOSED"
 
 class InvalidStateTransitionError(Exception):
     pass
@@ -28,7 +29,7 @@ class TransactionStateMachine:
         TransactionState.AUTHORIZED: [TransactionState.CAPTURED, TransactionState.FAILED],
         TransactionState.CAPTURED: [], # End state for normal flow
         TransactionState.FAILED: [TransactionState.DIAGNOSING, TransactionState.UNKNOWN],
-        TransactionState.DIAGNOSING: [TransactionState.RECOVERY_PLANNED, TransactionState.ESCALATED, TransactionState.BLOCKED],
+        TransactionState.DIAGNOSING: [TransactionState.RECOVERY_PLANNED, TransactionState.ESCALATED, TransactionState.BLOCKED, TransactionState.CLOSED, TransactionState.RECOVERED],
         TransactionState.RECOVERY_PLANNED: [TransactionState.AWAITING_APPROVAL, TransactionState.RECOVERY_EXECUTING],
         TransactionState.AWAITING_APPROVAL: [TransactionState.RECOVERY_EXECUTING, TransactionState.ESCALATED, TransactionState.BLOCKED],
         TransactionState.RECOVERY_EXECUTING: [TransactionState.VERIFYING, TransactionState.UNKNOWN, TransactionState.FAILED],
@@ -36,7 +37,8 @@ class TransactionStateMachine:
         TransactionState.RECOVERED: [], # End state for recovery flow
         TransactionState.BLOCKED: [], # End state
         TransactionState.ESCALATED: [TransactionState.RECOVERY_EXECUTING, TransactionState.FAILED, TransactionState.RECOVERED], # Humans can act
-        TransactionState.UNKNOWN: [TransactionState.VERIFYING, TransactionState.FAILED, TransactionState.RECOVERED] # Reconciled
+        TransactionState.UNKNOWN: [TransactionState.VERIFYING, TransactionState.FAILED, TransactionState.RECOVERED], # Reconciled
+        TransactionState.CLOSED: []
     }
 
     @classmethod
