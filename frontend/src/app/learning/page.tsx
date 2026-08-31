@@ -14,8 +14,8 @@ export default function LearningInsights() {
     const fetchLearning = async () => {
       try {
         const [res, metricsRes] = await Promise.all([
-          fetch("http://127.0.0.1:8000/api/phase2/learning/insights"),
-          fetch("http://127.0.0.1:8000/api/dashboard/metrics")
+          fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/phase2/learning/insights`),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/dashboard/metrics`)
         ]);
         
         if (res.ok && metricsRes.ok) {

@@ -11,7 +11,7 @@ export default function ProactiveAlerts() {
   useEffect(() => {
     const fetchAlerts = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/phase2/alerts/proactive");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/phase2/alerts/proactive`);
         if (res.ok) {
           const data = await res.json();
           setAlerts(data);

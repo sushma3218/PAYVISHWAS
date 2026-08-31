@@ -11,7 +11,7 @@ export default function AuditTrail() {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/phase2/audit/logs");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/phase2/audit/logs`);
         if (res.ok) {
           const data = await res.json();
           setLogs(data);

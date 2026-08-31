@@ -20,9 +20,9 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const [statsRes, interventionsRes, chartRes] = await Promise.all([
-          fetch("http://127.0.0.1:8000/api/dashboard/stats"),
-          fetch("http://127.0.0.1:8000/api/dashboard/interventions?limit=5"),
-          fetch("http://127.0.0.1:8000/api/dashboard/chart")
+          fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/dashboard/stats`),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/dashboard/interventions?limit=5`),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/dashboard/chart`)
         ]);
         
         if (statsRes.ok) setStats(await statsRes.json());
