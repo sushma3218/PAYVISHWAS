@@ -109,7 +109,7 @@ export default function DemoCenter() {
 
                 <div className="space-y-2 mt-4">
                   <Label>Demo Scenario</Label>
-                  <Select value={scenario} onValueChange={setScenario} disabled={checkoutState !== "idle"}>
+                  <Select value={scenario} onValueChange={(val) => { if (val) setScenario(val); }} disabled={checkoutState !== "idle"}>
                     <SelectTrigger className="border-blue-300 bg-blue-50">
                       <SelectValue />
                     </SelectTrigger>
