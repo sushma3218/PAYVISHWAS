@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, AlertTriangle, Search, Undo2, Bell, Cpu, FileText, BookOpen, Settings2, SlidersHorizontal } from "lucide-react";
+import { Activity, AlertTriangle, Search, Undo2, Bell, Cpu, FileText, BookOpen, Settings2, SlidersHorizontal, Menu, X } from "lucide-react";
 
 export const PayvishwasLogo = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg 
@@ -33,6 +34,7 @@ export const PayvishwasLogo = ({ className = "w-6 h-6" }: { className?: string }
 
 export function Sidebar() {
   const pathname = usePathname();
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   const navItems = [
     { name: "Overview", icon: Activity, href: "/" },
@@ -50,25 +52,34 @@ export function Sidebar() {
 
   return (
     <aside className="w-full md:w-64 bg-sidebar flex-shrink-0 flex flex-col md:h-full border-b md:border-b-0 md:border-r border-sidebar-border">
-      <div className="h-14 md:h-16 flex items-center px-4 md:px-6 border-b border-sidebar-border flex-shrink-0">
-        <PayvishwasLogo className="w-5 h-5 md:w-6 md:h-6 mr-2" />
-        <span className="text-sidebar-foreground font-bold text-base md:text-lg tracking-wide">PAYVISHWAS</span>
+      <div className="h-14 md:h-16 flex items-center justify-between px-4 md:px-6 border-b border-sidebar-border flex-shrink-0">
+        <div className="flex items-center">
+          <PayvishwasLogo className="w-5 h-5 md:w-6 md:h-6 mr-2" />
+          <span className="text-sidebar-foreground font-bold text-base md:text-lg tracking-wide">PAYVISHWAS</span>
+        </div>
+        <button 
+          className="md:hidden p-2 -mr-2 text-sidebar-foreground hover:bg-sidebar-accent rounded-md" 
+          onClick={() => setIsNavOpen(!isNavOpen)}
+        >
+          {isNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
       </div>
-      <nav className="overflow-x-auto md:overflow-y-auto py-2 md:py-4 flex-shrink-0 hide-scrollbar">
-        <ul className="flex flex-row md:flex-col space-x-2 md:space-x-0 md:space-y-1 px-3 w-max md:w-auto">
+      <nav className={`${isNavOpen ? "block" : "hidden"} md:block overflow-y-auto py-2 md:py-4 flex-shrink-0 md:flex-1 hide-scrollbar`}>
+        <ul className="flex flex-col space-y-1 px-3 w-full">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <li key={item.name}>
                 <Link 
                   href={item.href} 
+                  onClick={() => setIsNavOpen(false)}
                   className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     isActive 
-                      ? 'bg-sidebar-accent text-sidebar-accent-foreground border-b-2 md:border-b-0 md:border-l-2 border-primary' 
+                      ? 'bg-sidebar-accent text-sidebar-accent-foreground border-l-2 border-primary' 
                       : 'text-sidebar-foreground/80 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
                   }`}
                 >
-                  <item.icon className={`w-4 h-4 mr-2 md:mr-3 flex-shrink-0 ${isActive ? 'text-primary' : ''}`} />
+                  <item.icon className={`w-4 h-4 mr-3 flex-shrink-0 ${isActive ? 'text-primary' : ''}`} />
                   <span className="whitespace-nowrap">{item.name}</span>
                 </Link>
               </li>
@@ -76,7 +87,7 @@ export function Sidebar() {
           })}
         </ul>
       </nav>
-      <div className="hidden md:flex p-4 border-t border-sidebar-border">
+      <div className="hidden md:flex p-4 border-t border-sidebar-border mt-auto">
         <div className="flex items-center">
           <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">
             R
