@@ -16,13 +16,42 @@ export default function DemoCenter() {
   
   // Swarm steps visualization
   const [activeStep, setActiveStep] = useState<number>(-1);
-  const steps = [
-    { name: "Diagnosis Agent", desc: "Analyzing failure root cause...", result: "Bank Timeout Detected (Transient)", icon: Search, color: "text-blue-500" },
-    { name: "Context Agent", desc: "Retrieving customer history...", result: "High LTV Customer, No past fraud", icon: Activity, color: "text-indigo-500" },
-    { name: "Risk Agent", desc: "Evaluating recovery risk...", result: "Risk Score: 12 (Low) - Safe to proceed", icon: AlertTriangle, color: "text-amber-500" },
-    { name: "Policy Gatekeeper", desc: "Checking merchant rules...", result: "Rule pass: Transaction < ₹1,00,000", icon: ShieldCheck, color: "text-emerald-500" },
-    { name: "Recovery Agent", desc: "Formulating optimal strategy...", result: "Deploy alternate payment link via SMS", icon: Smartphone, color: "text-purple-500" },
-  ];
+  const getStepsForScenario = (currentScenario: string) => {
+    if (currentScenario === "high_risk") {
+      return [
+        { name: "Diagnosis Agent", desc: "Analyzing failure root cause...", result: "Suspicious Pattern Detected", icon: Search, color: "text-blue-500" },
+        { name: "Context Agent", desc: "Retrieving customer history...", result: "Low LTV Customer, High fraud velocity", icon: Activity, color: "text-indigo-500" },
+        { name: "Risk Agent", desc: "Evaluating recovery risk...", result: "Risk Score: 85 (High) - Escalate", icon: AlertTriangle, color: "text-red-500" },
+        { name: "Policy Gatekeeper", desc: "Checking merchant rules...", result: "Rule failed: High Risk & Transaction > ₹1,00,000", icon: ShieldAlert, color: "text-red-500" },
+        { name: "Recovery Agent", desc: "Formulating optimal strategy...", result: "Block user and alert fraud team", icon: ShieldAlert, color: "text-red-500" },
+      ];
+    } else if (currentScenario === "idempotency") {
+      return [
+        { name: "Diagnosis Agent", desc: "Analyzing failure root cause...", result: "Duplicate Webhook Detected", icon: Search, color: "text-blue-500" },
+        { name: "Context Agent", desc: "Retrieving customer history...", result: "Checking previous events...", icon: Activity, color: "text-indigo-500" },
+        { name: "Risk Agent", desc: "Evaluating recovery risk...", result: "Risk Score: 0 (N/A) - Idempotent", icon: AlertTriangle, color: "text-amber-500" },
+        { name: "Policy Gatekeeper", desc: "Checking merchant rules...", result: "Rule pass: Idempotency enforced", icon: ShieldCheck, color: "text-emerald-500" },
+        { name: "Recovery Agent", desc: "Formulating optimal strategy...", result: "Ignore duplicate webhook silently", icon: ShieldCheck, color: "text-emerald-500" },
+      ];
+    } else if (currentScenario === "unknown_state") {
+      return [
+        { name: "Diagnosis Agent", desc: "Analyzing failure root cause...", result: "Unknown State Detected", icon: Search, color: "text-blue-500" },
+        { name: "Context Agent", desc: "Retrieving customer history...", result: "Standard User profile", icon: Activity, color: "text-indigo-500" },
+        { name: "Risk Agent", desc: "Evaluating recovery risk...", result: "Risk Score: 50 (Medium) - Verify first", icon: AlertTriangle, color: "text-amber-500" },
+        { name: "Policy Gatekeeper", desc: "Checking merchant rules...", result: "Rule pass: Pending verification", icon: ShieldCheck, color: "text-emerald-500" },
+        { name: "Recovery Agent", desc: "Formulating optimal strategy...", result: "Query bank API for actual state", icon: Activity, color: "text-purple-500" },
+      ];
+    }
+    return [
+      { name: "Diagnosis Agent", desc: "Analyzing failure root cause...", result: "Bank Timeout Detected (Transient)", icon: Search, color: "text-blue-500" },
+      { name: "Context Agent", desc: "Retrieving customer history...", result: "High LTV Customer, No past fraud", icon: Activity, color: "text-indigo-500" },
+      { name: "Risk Agent", desc: "Evaluating recovery risk...", result: "Risk Score: 12 (Low) - Safe to proceed", icon: AlertTriangle, color: "text-amber-500" },
+      { name: "Policy Gatekeeper", desc: "Checking merchant rules...", result: "Rule pass: Transaction < ₹1,00,000", icon: ShieldCheck, color: "text-emerald-500" },
+      { name: "Recovery Agent", desc: "Formulating optimal strategy...", result: "Deploy alternate payment link via SMS", icon: Smartphone, color: "text-purple-500" },
+    ];
+  };
+
+  const steps = getStepsForScenario(scenario);
 
   const simulateCheckout = async () => {
     setCheckoutState("processing");
