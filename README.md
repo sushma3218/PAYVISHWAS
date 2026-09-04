@@ -4,6 +4,8 @@
 *Trust every payment decision.*  
 *Context-aware risk intelligence for safer, smarter payment recovery.*
 
+🚀 **Live Demo:** [https://payvishwas.vercel.app/](https://payvishwas.vercel.app/)
+
 ## Track 02: AI Risk Manager
 
 PAYVISHWAS is a context-aware multi-agent AI Risk Manager that evaluates payment risk, predicts potential loss (specifically focusing on **Fraud/Chargeback Risk on High-Value and High-Velocity Transactions**), recommends the safest response, and enforces deterministic financial guardrails before any action is taken.
@@ -30,7 +32,16 @@ The system relies on an ML risk model evaluated on a strictly held-out test set,
 - Confusion Matrix
 - False Positive/Negative Costs
 
-### Running the Project
-Please see [ARCHITECTURE.md](ARCHITECTURE.md) for more details.
+### 📚 Documentation
+
+We have organized all our detailed documentation into the `docs/` folder for easier reviewing:
+
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md): System architecture and data flow.
+- [AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md): Deep dive into the Swarm Orchestrator and Agents.
+- [DEMO.md](docs/DEMO.md): Instructions on how to run and test the live demo.
+- [API.md](docs/API.md): API documentation for phase 2.
+- [SECURITY.md](docs/SECURITY.md): Security practices and considerations.
+- [TESTING.md](docs/TESTING.md): Testing strategy and ML evaluation details.
+- [agent.md](docs/agent.md): Overview of individual agent capabilities.
 
 *(Development ongoing - Phase 1 Foundation)*
